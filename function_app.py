@@ -5,8 +5,6 @@ from pymongo import MongoClient
 from datetime import datetime, timedelta
 import json
 
-### DIE ENV VAR WEG UND DAS ALS NEUEN BRACH stateSecondPhase oder so. Dann hinzu auf main.
-
 
 app = func.FunctionApp()
 
