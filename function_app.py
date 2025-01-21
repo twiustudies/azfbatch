@@ -9,9 +9,22 @@ import json
 
 
 app = func.FunctionApp()
+# Read MongoDB username and password from environment variables
+# OPTIMIZATION 1
+database_user = os.getenv('DATABASEUSER')
+database_pw = os.getenv('DATABASEPW')
+
+# Check if the required environment variables are set
+if not database_user or not database_pw:
+    logging.error("DATABASEUSER or DATABASEPW environment variables are not set.")
+    raise EnvironmentError("DATABASEUSER and DATABASEPW must be set as environment variables.")
 
 # Construct the MongoDB connection string using environment variables
-connection_string = "mongodb+srv://thilowiltsadmin:abc123abc123!@dataengprojectbatchdb.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+connection_string = (
+    "mongodb+srv://{user}:{password}@dataengprojectbatchdb.mongocluster.cosmos.azure.com/"
+    "?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+).format(user=database_user, password=database_pw)
+
 
 # Store events in a list
 events = []
